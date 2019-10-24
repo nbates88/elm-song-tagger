@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Main</title>
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+    />
+    <link rel="stylesheet" href="src/styles.css" />
+    <script src="main.js"></script>
+  </head>
+
+  <body>
+    <div id="elm"></div>
+    <script>
+      var storedState = localStorage.getItem('token') || null;
+      var app = Elm.Main.init({
+        node: document.getElementById('elm'),
+        flags: storedState,
+      });
+      app.ports.setStorage.subscribe(function(token) {
+        localStorage.setItem('token', token);
+      });
+      // app.ports.removeStorage.subscribe(function() {
+      //   localStorage.removeItem('token');
+      // });
+    </script>
+  </body>
+</html>
