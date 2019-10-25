@@ -29,7 +29,6 @@ main =
 
 -- MODEL
 
-
 type alias Model =   
     { key : Nav.Key
     , url : Url.Url
@@ -41,8 +40,12 @@ type alias Track =
     { name : String
     , album_image: String
     , preview_url: String
+    , track_id: String
     }
 
+
+type Route 
+    = TrackRoute String
 
 init :  Maybe String -> Url.Url -> Nav.Key -> ( Model, Cmd Msg )
 init flags url key =
@@ -84,10 +87,11 @@ fetchPlaylists model =
 
 trackDecoder: Decoder Track
 trackDecoder = 
-    Decode.map3 Track
+    Decode.map4 Track
     (field "name" Decode.string)
     (field "album" (field "images" (Decode.index 1 (field "url" Decode.string))))
     (field "preview_url" Decode.string)
+    (field "id" Decode.string)
 
 tracksDecoder : Decoder (List Track)
 tracksDecoder =
@@ -173,7 +177,7 @@ view model =
             if hasTracks then
                  div [class "tracks"]
                         (List.map (\l -> div [class "track"] [
-                            p [] [text l.name ]
+                            a [ href (String.concat [ "/track/", l.track_id ])] [ text l.name ] 
                             , img [src l.album_image ] []
                             , audio
                                 [ src l.preview_url

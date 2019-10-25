@@ -6114,15 +6114,15 @@ var $elm$http$Http$request = function (r) {
 };
 var $elm$json$Json$Decode$field = _Json_decodeField;
 var $elm$json$Json$Decode$list = _Json_decodeList;
-var $author$project$Main$Track = F3(
-	function (name, album_image, preview_url) {
-		return {album_image: album_image, name: name, preview_url: preview_url};
+var $author$project$Main$Track = F4(
+	function (name, album_image, preview_url, track_id) {
+		return {album_image: album_image, name: name, preview_url: preview_url, track_id: track_id};
 	});
 var $elm$json$Json$Decode$index = _Json_decodeIndex;
-var $elm$json$Json$Decode$map3 = _Json_map3;
+var $elm$json$Json$Decode$map4 = _Json_map4;
 var $elm$json$Json$Decode$string = _Json_decodeString;
-var $author$project$Main$trackDecoder = A4(
-	$elm$json$Json$Decode$map3,
+var $author$project$Main$trackDecoder = A5(
+	$elm$json$Json$Decode$map4,
 	$author$project$Main$Track,
 	A2($elm$json$Json$Decode$field, 'name', $elm$json$Json$Decode$string),
 	A2(
@@ -6135,7 +6135,8 @@ var $author$project$Main$trackDecoder = A4(
 				$elm$json$Json$Decode$index,
 				1,
 				A2($elm$json$Json$Decode$field, 'url', $elm$json$Json$Decode$string)))),
-	A2($elm$json$Json$Decode$field, 'preview_url', $elm$json$Json$Decode$string));
+	A2($elm$json$Json$Decode$field, 'preview_url', $elm$json$Json$Decode$string),
+	A2($elm$json$Json$Decode$field, 'id', $elm$json$Json$Decode$string));
 var $author$project$Main$tracksDecoder = A2(
 	$elm$json$Json$Decode$field,
 	'items',
@@ -6410,6 +6411,9 @@ var $elm$html$Html$Attributes$stringProperty = F2(
 			$elm$json$Json$Encode$string(string));
 	});
 var $elm$html$Html$Attributes$class = $elm$html$Html$Attributes$stringProperty('className');
+var $elm$core$String$concat = function (strings) {
+	return A2($elm$core$String$join, '', strings);
+};
 var $elm$json$Json$Encode$bool = _Json_wrap;
 var $elm$html$Html$Attributes$boolProperty = F2(
 	function (key, bool) {
@@ -6476,8 +6480,14 @@ var $author$project$Main$view = function (model) {
 					_List_fromArray(
 						[
 							A2(
-							$elm$html$Html$p,
-							_List_Nil,
+							$elm$html$Html$a,
+							_List_fromArray(
+								[
+									$elm$html$Html$Attributes$href(
+									$elm$core$String$concat(
+										_List_fromArray(
+											['/track/', l.track_id])))
+								]),
 							_List_fromArray(
 								[
 									$elm$html$Html$text(l.name)
